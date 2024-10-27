@@ -1,0 +1,130 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Modificar Producto</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="product-page">
+  <div class="product-container">
+    <div class="logo-container">
+      <img src="assets/icon/logo.jpg" alt="Logo" class="logo">
+    </div>
+
+    <form id="modificacionForm" class="modificacion-form" (submit)="onSubmit()">
+      <!-- Nombre del Producto -->
+      <ion-item class="product-input">
+        <ion-icon name="pricetag-outline" slot="start"></ion-icon>
+        <ion-input
+          name="nombrePro"
+          id="nombrePro"
+          label="Nombre del Producto"
+          label-placement="floating"
+          fill="solid"
+          [(ngModel)]="producto.nombre"
+          placeholder="Nombre del Producto">
+        </ion-input>
+      </ion-item>
+      <div id="namepro-error" class="error-message"></div>
+
+      <!-- Código del Producto -->
+      <ion-item class="product-input">
+        <ion-icon name="barcode-outline" slot="start"></ion-icon>
+        <ion-input
+          name="codigoPro"
+          id="codigoPro"
+          label="Código del Producto"
+          label-placement="floating"
+          fill="solid"
+          [(ngModel)]="producto.codigo"
+          placeholder="Código del Producto">
+        </ion-input>
+      </ion-item>
+      <div id="codigopro-error" class="error-message"></div>
+
+      <!-- Precio del Producto -->
+      <ion-item class="product-input">
+        <ion-icon name="cash-outline" slot="start"></ion-icon>
+        <ion-input
+          name="precioPro"
+          id="precioPro"
+          label="Precio del Producto"
+          label-placement="floating"
+          fill="solid"
+          type="number"
+          [(ngModel)]="producto.precio"
+          placeholder="Precio">
+        </ion-input>
+      </ion-item>
+      <div id="preciopro-error" class="error-message"></div>
+
+      <!-- Descripción del Producto -->
+      <ion-item class="product-input">
+        <ion-icon name="document-text-outline" slot="start"></ion-icon>
+        <ion-textarea
+          name="descriPro"
+          id="descriPro"
+          label="Descripción"
+          label-placement="floating"
+          fill="solid"
+          [(ngModel)]="producto.descripcion"
+          placeholder="Descripción">
+        </ion-textarea>
+      </ion-item>
+      <div id="descripro-error" class="error-message"></div>
+
+      <!-- Cantidad del Producto -->
+      <ion-item class="product-input">
+        <ion-icon name="cube-outline" slot="start"></ion-icon>
+        <ion-input
+          name="cantiPro"
+          id="cantiPro"
+          label="Cantidad"
+          label-placement="floating"
+          fill="solid"
+          type="number"
+          [(ngModel)]="producto.cantidad"
+          min="1"
+          placeholder="Cantidad">
+        </ion-input>
+      </ion-item>
+      <div id="cantipro-error" class="error-message"></div>
+
+      <!-- Categoría del Producto -->
+      <ion-item class="product-input">
+        <ion-icon name="albums-outline" slot="start"></ion-icon>
+        <ion-select
+          name="categoPro"
+          id="categoPro"
+          [(ngModel)]="producto.categoria"
+          placeholder="Selecciona la categoría">
+          <ion-select-option value="electrónica">Electrónica</ion-select-option>
+          <ion-select-option value="hogar">Hogar</ion-select-option>
+          <ion-select-option value="ropa">Ropa</ion-select-option>
+          <ion-select-option value="juguetes">Juguetes</ion-select-option>
+        </ion-select>
+      </ion-item>
+      <div id="categopro-error" class="error-message"></div>
+
+      <!-- Foto del Producto -->
+      <ion-item>
+        <ion-label>Foto del producto</ion-label>
+        <ion-button (click)="takePicture()">Tomar Foto</ion-button>
+        <ion-button (click)="selectImageFromGallery()">Seleccionar de Galería</ion-button>
+      </ion-item>
+
+      <img *ngIf="selectedImage" [src]="selectedImage" alt="Imagen seleccionada" />
+      <div *ngIf="fotoErrorMessage" class="error-message">
+        {{ fotoErrorMessage }}
+      </div>
+
+      <!-- Botón para enviar formulario -->
+      <ion-button expand="full" color="primary" class="submit-button" type="submit">
+        Modificar Producto
+      </ion-button>
+    </form>
+
+    <ion-button [routerLink]="['/administracion']" fill="clear" size="small" class="back-button">
+      Volver
+    </ion-button>
+  </div>
+</ion-content>

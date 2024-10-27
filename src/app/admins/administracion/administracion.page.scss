@@ -1,0 +1,58 @@
+#main-content ion-content {
+  --background: url('/assets/icon/inicio.jpg') no-repeat center center / cover;
+}
+
+.page-content {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  padding: 15px;
+  margin: 15px;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-radius: 10px;
+  overflow-x: auto; /* Añadir scroll horizontal si es necesario */
+  table-layout: fixed; /* Para que las columnas no se expandan más del contenido */
+}
+
+.mat-header-cell, .mat-cell {
+  padding: 8px;
+  text-align: center;
+  background-color: rgba(255, 255, 255, 0.9);
+  word-wrap: break-word; /* Evita que el texto largo se desborde */
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0px 5px 5px -3px rgba(0,0,0,0.2), 0px 8px 10px 1px rgba(0,0,0,0.14), 0px 3px 14px 2px rgba(0,0,0,0.12);
+  border-radius: 10px;
+}
+
+td.mat-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ion-button {
+  --padding-start: 4px;
+  --padding-end: 4px;
+  --border-radius: 5px;
+  font-size: 12px; /* Reducir el tamaño del texto del botón */
+  margin: 0 4px; /* Añadir espacio entre los botones */
+  max-width: 80px; /* Limitar el ancho de los botones */
+}
+
+@media (max-width: 768px) {
+  /* Ajustes para pantallas más pequeñas */
+  table {
+    font-size: 14px; /* Reducir el tamaño de la fuente en pantallas pequeñas */
+  }
+
+  ion-button {
+    --padding-start: 2px;
+    --padding-end: 2px;
+    font-size: 10px; /* Reducir aún más el tamaño del texto en pantallas pequeñas */
+  }
+}

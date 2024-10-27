@@ -1,0 +1,93 @@
+<ion-app>
+  <ion-menu contentId="main-content">
+    <ion-header>
+      <ion-toolbar color="tertiary">
+        <ion-title>Menu </ion-title>
+      </ion-toolbar>
+    </ion-header>
+
+    <ion-content class="ion-padding">
+      <ion-list>
+        <ion-item button>
+          <ion-icon slot="start" name="home-outline"></ion-icon>
+          <ion-label>Home</ion-label>
+        </ion-item>
+        <ion-item button [routerLink]="['/producto-gestion']">
+          <ion-icon slot="start" name="create-outline"></ion-icon>
+          <ion-label>Agregar Producto</ion-label>
+        </ion-item>
+        <ion-item button>
+          <ion-icon slot="start" name="analytics-outline" [routerLink]="['tienda']"></ion-icon>
+          <ion-label>tienda</ion-label>
+        </ion-item>
+      </ion-list>
+
+      <ion-footer class="ion-no-border">
+        <ion-item lines="none" button (click)="confirmarCerrarSesion()"> <!-- Cambiado para mostrar el alert -->
+          <ion-icon slot="start" name="log-out-outline"></ion-icon>
+          <ion-label>Cerrar Sesión</ion-label>
+        </ion-item>
+      </ion-footer>      
+    </ion-content>
+  </ion-menu>
+
+  <div class="ion-page" id="main-content">
+    <ion-header>
+      <ion-toolbar>
+        <ion-buttons slot="start">
+          <ion-menu-button></ion-menu-button>
+        </ion-buttons>
+        <ion-title>Administración</ion-title>
+        <ion-buttons slot="end">
+          <ion-button (click)="cargarProductos()">
+            <ion-icon slot="icon-only" name="refresh-outline"></ion-icon>
+          </ion-button>
+        </ion-buttons>
+        <h2>Bienvenido, {{ nombreUsuario ? nombreUsuario : rutUsuario }}</h2>
+        <p>{{ nombreUsuario ? 'Correo: ' + nombreUsuario : 'RUT: ' + rutUsuario }}</p>
+      </ion-toolbar>
+    </ion-header>
+    
+
+    <ion-content class="ion-padding">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Columna del ID -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> ID </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+    
+        <!-- Columna del Nombre -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+    
+        <!-- Columna del Precio -->
+        <ng-container matColumnDef="precio">
+          <th mat-header-cell *matHeaderCellDef> Precio </th>
+          <td mat-cell *matCellDef="let element"> {{element.precio}} </td>
+        </ng-container>
+    
+        <!-- Columna del Código -->
+        <ng-container matColumnDef="codigo">
+          <th mat-header-cell *matHeaderCellDef> Código </th>
+          <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+        </ng-container>
+    
+        <!-- Columna de acciones -->
+        <ng-container matColumnDef="acciones">
+          <th mat-header-cell *matHeaderCellDef> Acciones </th>
+          <td mat-cell *matCellDef="let element">
+            <ion-button color="primary" (click)="modificarProducto(element.id)">Modificar</ion-button>
+            <ion-button color="danger" (click)="eliminarProducto(element.id)">Eliminar</ion-button>
+          </td>
+        </ng-container>
+    
+        <!-- Encabezados y filas -->
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </ion-content>
+  </div>
+</ion-app>

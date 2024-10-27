@@ -1,0 +1,62 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Registro</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="registration-page">
+  <div class="registration-container">
+    <div class="logo-container">
+      <img src="assets/icon/logo.jpg" alt="Logo" class="logo">
+    </div>
+
+    <form id="registrationForm" class="registration-form">
+      <ion-item class="registration-input">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input name="name" id="name" label="Nombre" label-placement="floating" fill="solid" placeholder="Nombre"></ion-input>
+      </ion-item>
+      <div id="name-error" class="error-message"></div>
+      
+      <ion-item class="registration-input">
+        <ion-icon name="person-outline" slot="start"></ion-icon>
+        <ion-input name="surname" id="surname" label="Apellido" label-placement="floating" fill="solid" placeholder="Apellido"></ion-input>
+      </ion-item>
+      <div id="surname-error" class="error-message"></div>
+      
+      <ion-item class="registration-input">
+        <ion-icon name="mail-outline" slot="start"></ion-icon>
+        <ion-input name="email" id="email" label="Correo" label-placement="floating" fill="solid" type="email" placeholder="Correo"></ion-input>
+      </ion-item>
+      <div id="email-error" class="error-message"></div>
+      
+      <ion-item class="registration-input">
+        <ion-icon name="business-outline" slot="start"></ion-icon>
+        <ion-input name="region" id="region" label="Región" label-placement="floating" fill="solid" placeholder="Región"></ion-input>
+      </ion-item>
+      <div id="region-error" class="error-message"></div>
+      
+      <ion-item class="registration-input">
+        <ion-icon name="business-outline" slot="start"></ion-icon>
+        <ion-input name="comuna" id="comuna" label="Comuna" label-placement="floating" fill="solid" placeholder="Comuna"></ion-input>
+      </ion-item>
+      <div id="comuna-error" class="error-message"></div>
+      
+      <ion-item class="registration-input">
+        <ion-icon name="shield-half-outline" slot="start"></ion-icon>
+        <ion-input name="password" id="password" label="Contraseña" label-placement="floating" fill="solid" type="password" placeholder="Contraseña"></ion-input>
+      </ion-item>
+      <div id="password-error" class="error-message"></div>
+      
+      <ion-item lines="none">
+        <ion-checkbox name="terms" id="terms" slot="start"></ion-checkbox>
+        <ion-label>Acepto los términos y condiciones</ion-label>
+      </ion-item>
+      <div id="terms-error" class="error-message"></div>
+      
+      <ion-button expand="full" color="primary" class="submit-button" type="submit">
+        Registrarse
+      </ion-button>     
+    </form>
+    <ion-button [routerLink]="['/home']" fill="clear" size="small" class="back-button" (click)="limpiarFormulario()" (click)="limpiarMensaje()">Volver</ion-button>
+  </div>
+</ion-content>

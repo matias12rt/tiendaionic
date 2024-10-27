@@ -1,0 +1,53 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/home']" (click)="confirmarCerrarSesion()">
+        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Tienda Para Mascotas</ion-title>
+    <ion-buttons slot="end">
+      <ion-button #cartIcon>
+        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge color="danger">2</ion-badge> <!-- Muestra cantidad de productos en el carrito -->
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+  <ion-toolbar color="light">
+    <ion-searchbar placeholder="Buscar productos"></ion-searchbar>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="store-page">
+  <ion-item>
+    <ion-label>Filtrar por:</ion-label>
+    <ion-select placeholder="Selecciona una categoría">
+      <ion-select-option value="comida">Comida</ion-select-option>
+      <ion-select-option value="juguetes">Juguetes</ion-select-option>
+      <ion-select-option value="accesorios">Accesorios</ion-select-option>
+    </ion-select>
+  </ion-item>
+
+  <ion-grid>
+    <ion-row>
+      <!-- Desplegar los productos dinámicamente -->
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of products">
+        <ion-card>
+          <img [src]="product.foto" [alt]="product.nombre" (click)="addToCart($event, $event.target)" />
+          <ion-card-header>
+            <ion-card-title>{{ product.nombre }}</ion-card-title>
+            <ion-card-subtitle>\${{ product.precio }}</ion-card-subtitle>
+            <p>Código: {{ product.codigo }}</p>
+            <p>Stock: {{ product.cantidad }}</p>
+          </ion-card-header>
+          <ion-card-content>
+            <p>{{ product.descripcion }}</p>
+            <ion-button expand="full" color="primary" (click)="addToCart($event, $event.target)">
+              Añadir al Carrito
+            </ion-button>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

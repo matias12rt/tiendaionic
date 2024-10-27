@@ -1,0 +1,26 @@
+{
+  "productos": [],
+  "usuarios": [
+    {
+      "id": "15",
+      "nombre": "kdnz",
+      "apellido": "jsjd",
+      "correo": "pentakil019@gmail.com",
+      "region": "jdjdj",
+      "comuna": "kdkfkd",
+      "contrasena": "Orellana1234"
+    }
+  ],
+  "admins": [
+    {
+      "id": "28",
+      "nombre": "sjd",
+      "apellido": "kddk",
+      "correo": "matias12rthp@gmail.com",
+      "rut": "211265930",
+      "region": "ldkfj",
+      "comuna": "fkfkk",
+      "contrasena": "Orellana1233"
+    }
+  ]
+}
