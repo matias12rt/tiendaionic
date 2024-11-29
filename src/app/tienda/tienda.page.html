@@ -1,39 +1,70 @@
+<ion-menu side="start" menuId="first" contentId="main-content">
+  <ion-header>
+    <ion-toolbar color="primary">
+      <ion-title>Menú</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-content>
+    <ion-list>
+      <!-- Opción Mis Pedidos -->
+      <ion-item [routerLink]="['/pedidos']">
+        <ion-icon slot="start" name="cart-outline"></ion-icon>
+        <ion-label>Mis Pedidos</ion-label>
+      </ion-item>
+      <!-- Opción Cerrar Sesión -->
+      <ion-item (click)="confirmarCerrarSesion()">
+        <ion-icon slot="start" name="log-out-outline"></ion-icon>
+        <ion-label>Cerrar Sesión</ion-label>
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-menu>
+
 <ion-header [translucent]="true">
   <ion-toolbar color="primary">
     <ion-buttons slot="start">
-      <ion-button [routerLink]="['/home']" (click)="confirmarCerrarSesion()">
-        <ion-icon slot="icon-only" name="home-outline"></ion-icon>
-      </ion-button>
+      <ion-menu-button></ion-menu-button>
     </ion-buttons>
     <ion-title>Tienda Para Mascotas</ion-title>
     <ion-buttons slot="end">
-      <ion-button #cartIcon>
-        <ion-icon slot="icon-only" name="cart-outline"></ion-icon>
-        <ion-badge color="danger">2</ion-badge> <!-- Muestra cantidad de productos en el carrito -->
+      <!-- Botón del carrito -->
+      <ion-button (click)="goToCart()">
+        <ion-icon #cartIcon slot="icon-only" name="cart-outline"></ion-icon>
+        <ion-badge color="danger">{{ cartItems.length }}</ion-badge>
       </ion-button>
+      
     </ion-buttons>
   </ion-toolbar>
   <ion-toolbar color="light">
-    <ion-searchbar placeholder="Buscar productos"></ion-searchbar>
+    <ion-searchbar 
+      placeholder="Buscar productos" 
+      [(ngModel)]="searchQuery" 
+      (ionInput)="applyFilters()">
+    </ion-searchbar>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true" class="store-page">
+<ion-content [fullscreen]="true" id="main-content" class="store-page">
   <ion-item>
     <ion-label>Filtrar por:</ion-label>
-    <ion-select placeholder="Selecciona una categoría">
-      <ion-select-option value="comida">Comida</ion-select-option>
+    <ion-select 
+      placeholder="Selecciona una categoría" 
+      [(ngModel)]="selectedCategory" 
+      (ionChange)="applyFilters()">
+      <ion-select-option value="">Todas</ion-select-option>
+      <ion-select-option value="ropa">Ropa</ion-select-option>
       <ion-select-option value="juguetes">Juguetes</ion-select-option>
-      <ion-select-option value="accesorios">Accesorios</ion-select-option>
+      <ion-select-option value="comida">Comida</ion-select-option>
+      <ion-select-option value="Limpieza">Limpieza</ion-select-option>
+      <ion-select-option value="Acesorios">Acesorios</ion-select-option>
     </ion-select>
   </ion-item>
 
   <ion-grid>
     <ion-row>
-      <!-- Desplegar los productos dinámicamente -->
-      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of products">
+      <ion-col size="12" size-md="6" size-lg="4" *ngFor="let product of filteredProducts">
         <ion-card>
-          <img [src]="product.foto" [alt]="product.nombre" (click)="addToCart($event, $event.target)" />
+          <img [src]="product.foto" [alt]="product.nombre" />
           <ion-card-header>
             <ion-card-title>{{ product.nombre }}</ion-card-title>
             <ion-card-subtitle>\${{ product.precio }}</ion-card-subtitle>
@@ -42,12 +73,12 @@
           </ion-card-header>
           <ion-card-content>
             <p>{{ product.descripcion }}</p>
-            <ion-button expand="full" color="primary" (click)="addToCart($event, $event.target)">
+            <ion-button expand="full" color="primary" (click)="addToCart(product, $event)">
               Añadir al Carrito
             </ion-button>
           </ion-card-content>
         </ion-card>
       </ion-col>
-    </ion-row>
+    </ion-row>    
   </ion-grid>
 </ion-content>

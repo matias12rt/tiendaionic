@@ -1,5 +1,16 @@
 {
-  "productos": [],
+  "productos": [
+    {
+      "id": 2,
+      "nombre": "comida para gato",
+      "codigo": "d300",
+      "precio": 13000,
+      "descripcion": "comida",
+      "cantidad": 2,
+      "categoria": "comida",
+      "foto": "https://localhost/_capacitor_file_/storage/emulated/0/Android/data/io.ionic.starter/files/Pictures/JPEG_20241128_210920_4544412393268615555.jpg"
+    }
+  ],
   "usuarios": [
     {
       "id": "15",
@@ -9,6 +20,15 @@
       "region": "jdjdj",
       "comuna": "kdkfkd",
       "contrasena": "Orellana1234"
+    },
+    {
+      "id": "16",
+      "nombre": "sfuentes",
+      "apellido": "fuentes",
+      "correo": "fuentes@fuentes.cl",
+      "region": "rendjd",
+      "comuna": "jxjx",
+      "contrasena": "Sfuentes1234"
     }
   ],
   "admins": [

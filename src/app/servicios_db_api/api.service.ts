@@ -8,7 +8,7 @@ import { Admin } from '../clases/Cladmin';
 
 
 // ----- VARIABLES -------------------
-const apiUrl = '  http://143.189.175.35:3000';
+const apiUrl = 'http://192.168.35.234:3000';
 const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }; 
 
 @Injectable({
@@ -90,6 +90,13 @@ export class ApiService {
       )
     }
 
+//--------------------------- METODO PARA CAMBIAR LA CONTRASEÑA --------------------------------
+    cambiarContrasena(correo: string, nuevaContrasena: string): Observable<any> {
+      return this.http.put<any>(`${apiUrl}/usuarios?=${correo}`, { contrasena: nuevaContrasena }, httpOptions).pipe(
+        catchError(this.handleError<any>('cambiarContrasena'))
+      );
+    }
+
 //---------------------------- METODO PARA VERIFICAR EL CORREO DE UN CLIENTE USUARIO-------------------
 
     verificarCorreo(correo: string): Observable<boolean> {
@@ -114,6 +121,12 @@ export class ApiService {
       return this.http.post<Admin>(apiUrl + "/admins", admin, httpOptions).pipe(
         tap((newAdmin: Admin) => console.log(`Administrador agregado con id=${newAdmin.id}`)),
         catchError(this.handleError<Admin>('addAdmin'))
+      );
+    }
+//--------------------------- METODO PARA CAMBIAR LA CONTRASEÑA DEL ADMIN --------------------------------
+    cambiarContrasenaAdmin(correo: string, nuevaContrasena: string): Observable<any> {
+      return this.http.put<any>(`${apiUrl}/admins/${correo}`, { contrasena: nuevaContrasena }, httpOptions).pipe(
+        catchError(this.handleError<any>('cambiarContrasenaAdmin'))
       );
     }
 

@@ -46,9 +46,21 @@ const routes: Routes = [
     canActivate: [autenticarGuard] // Aplica el guard aquí
   },
   {
+    path: 'carrito',
+    loadChildren: () => import('./carrito/carrito.module').then( m => m.CarritoPageModule),
+    canActivate: [autenticarGuard] // Aplica el guard aquí
+  },
+  {
+    path: 'pedidos',
+    loadChildren: () => import('./pedidos/pedidos.module').then( m => m.PedidosPageModule),
+    canActivate: [autenticarGuard] // Aplica el guard aquí
+  },
+  {
     path: '**', // Ruta wildcard para el error 404
     component: PageNotFoundComponent
-  }
+  },
+ 
+ 
   
 ];
 

@@ -91,7 +91,10 @@ export class AdministracionPage implements OnInit {
 
     await alert.present();
   }
-
+  admin() {
+    this.router.navigate(['/registro-admin']);
+  }
+  
   cerrarSesion() {
     this.router.navigate(['/home']);
   }

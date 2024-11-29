@@ -1,9 +1,11 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { AnimationController, Animation } from '@ionic/angular';
 import { ApiService } from '../servicios_db_api/api.service'; 
-import { Clproducto } from '../admins/model/Clproducto'; // El modelo de los productos
 import { AlertController } from '@ionic/angular';
 import { AuthenticationService } from '../gurads/authentication.service'; 
+import { CartService } from '../servicio_carrito/cartservicio.service';
+
 @Component({
   selector: 'app-tienda',
   templateUrl: './tienda.page.html',
@@ -12,65 +14,123 @@ import { AuthenticationService } from '../gurads/authentication.service';
 export class TiendaPage implements OnInit {
   @ViewChild('cartIcon', { read: ElementRef }) cartIcon!: ElementRef;
   private addToCartAnimation!: Animation;
-  products: Clproducto[] = [];  // Aquí se almacenarán los productos
+  products: any[] = []; // Aquí se almacenarán los productos
+  cartItems: any[] = []; // Almacenar los productos del carrito
+  filteredProducts: any[] = []; // Lista de productos filtrados para la búsqueda y filtros
+  searchQuery: string = ''; // Almacena el texto de búsqueda
+  selectedCategory: string = ''; // Almacena la categoría seleccionada
+
 
   constructor(
     private animationCtrl: AnimationController,
     private apiService: ApiService,  // Inyectar el servicio de API
     private alertController: AlertController,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private router: Router,
+    private cartService: CartService,
   ) { }
 
-  ngOnInit() {
-    this.getProductsFromApi();  // Llamar al método que obtiene los productos
+  goToCart() {
+    this.router.navigate(['/carrito']);
   }
 
-  // Método para obtener los productos desde la API
-  getProductsFromApi() {
-    this.apiService.getProducts().subscribe(
-      (data: Clproducto[]) => {
-        this.products = data;  // Guardar los productos obtenidos
-      },
-      (error) => {
-        console.error('Error al obtener productos de la API', error);
-      }
+  ngOnInit() {
+    this.loadProducts();  // Llamar al método que obtiene los productos
+  }
+
+
+    // Método para buscar productos por nombre o código
+searchProducts() {
+  const query = this.searchQuery.toLowerCase().trim();
+  this.filteredProducts = this.products.filter(product =>
+    product.nombre.toLowerCase().includes(query) || 
+    product.codigo.toLowerCase().includes(query)
+  );
+}
+
+// Método para filtrar productos por categoría
+filterByCategory() {
+  if (this.selectedCategory) {
+    this.filteredProducts = this.products.filter(product =>
+      product.categoria.toLowerCase() === this.selectedCategory.toLowerCase()
+    );
+  } else {
+    this.filteredProducts = [...this.products]; // Si no hay categoría seleccionada, muestra todos
+  }
+}
+
+// Método combinado para buscar y filtrar al mismo tiempo
+applyFilters() {
+  let filtered = [...this.products];
+
+  // Aplica la búsqueda si hay un texto en la barra de búsqueda
+  if (this.searchQuery.trim()) {
+    const query = this.searchQuery.toLowerCase().trim();
+    filtered = filtered.filter(product =>
+      product.nombre.toLowerCase().includes(query) || 
+      product.codigo.toLowerCase().includes(query)
     );
   }
+ // Aplica el filtro de categoría si hay una categoría seleccionada
+ if (this.selectedCategory) {
+  filtered = filtered.filter(product =>
+    product.categoria.toLowerCase() === this.selectedCategory.toLowerCase()
+  );
+}
 
-  addToCart(event: Event, target: EventTarget | null) {
-    const productImg = target as HTMLImageElement;
+// Actualiza los productos filtrados
+this.filteredProducts = filtered;
+}
+
+loadProducts() {
+  this.apiService.getProducts().subscribe(
+    (data: any[]) => {
+      // Mapea los productos para agregar una imagen por defecto
+      this.products = data.map(product => ({
+        ...product,
+        foto: product.foto || 'assets/img/default-image.png' // Imagen por defecto
+      }));
+
+      // Inicializa los productos filtrados con todos los productos
+      this.filteredProducts = [...this.products];
+    },
+    (error) => {
+      console.error('Error al cargar productos desde la API:', error);
+    }
+  );
+}
+
+
+  async addToCart(product: any, event: MouseEvent) {
+    const target = event.target as HTMLElement;
   
-    if (!productImg) {
-      return;  // Si el target no es una imagen, no continúa la animación
+    // Busca el botón del carrito al que se hizo clic
+    const cartButton = target.closest('ion-button');
+    
+    if (!cartButton) {
+      console.error('Error: No se pudo encontrar el botón del carrito.');
+      return;
     }
   
-    const productRect = productImg.getBoundingClientRect();
-    const cartRect = this.cartIcon.nativeElement.getBoundingClientRect();
+    // Primero, agregar el producto al carrito (sin animación de la imagen)
+    await this.cartService.addProductToCart(product);
   
-    // Crear la animación para mover la imagen al carrito
-    this.addToCartAnimation = this.animationCtrl.create()
-      .addElement(productImg)
-      .duration(800)
+    // Animación del botón del carrito
+    const animation = this.animationCtrl.create()
+      .addElement(cartButton)  // Aplica la animación al botón completo
+      .duration(500)
       .keyframes([
-        { offset: 0, transform: `translate(0, 0) scale(1)`, opacity: '1' },
-        { offset: 0.5, transform: `translate(${(cartRect.left - productRect.left) / 2}px, ${(cartRect.top - productRect.top) / 2}px) scale(0.5)`, opacity: '0.7' },
-        { offset: 1, transform: `translate(${cartRect.left - productRect.left}px, ${cartRect.top - productRect.top}px) scale(0.2)`, opacity: '0' },
+        { offset: 0, transform: 'scale(1)', opacity: '1' }, // Estado inicial
+        { offset: 0.5, transform: 'scale(1.2)', opacity: '0.8' }, // Aumento de tamaño
+        { offset: 1, transform: 'scale(1)', opacity: '1' } // Regresar a tamaño normal
       ]);
   
-    // Ejecutar la animación
-    this.addToCartAnimation.play().then(() => {
-      // Crear la animación para regresar la imagen a su posición original
-      const resetAnimation = this.animationCtrl.create()
-        .addElement(productImg)
-        .duration(500)
-        .keyframes([
-          { offset: 0, transform: `translate(${cartRect.left - productRect.left}px, ${cartRect.top - productRect.top}px) scale(0.2)`, opacity: '0' },
-          { offset: 1, transform: `translate(0, 0) scale(1)`, opacity: '1' },
-        ]);
-  
-      resetAnimation.play();
-    });
+    // Reproducir la animación
+    animation.play();
   }
+  
+  
+
   async confirmarCerrarSesion() {
     const alert = await this.alertController.create({
       header: 'Confirmar cierre de sesión',
@@ -86,13 +146,17 @@ export class TiendaPage implements OnInit {
         {
           text: 'Confirmar',
           handler: () => {
+            this.cerrarSesion();
             this.authenticationService.logout();
-
           },
         },
       ],
     });
 
     await alert.present();
-  }  
+  }
+
+  cerrarSesion() {
+    this.router.navigate(['/home']);
+  }
 }

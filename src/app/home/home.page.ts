@@ -13,7 +13,5 @@ export class HomePage {
   goToLogin() {
     this.router.navigate(['/login']);
   }
-  admin() {
-    this.router.navigate(['/registro-admin']);
-  }
+
 }

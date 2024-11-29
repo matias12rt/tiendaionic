@@ -1,0 +1,31 @@
+<ion-header [translucent]="true">
+  <ion-toolbar color="primary">
+    <ion-title>Pedidos</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true" class="pedidos-page">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Pedidos</ion-title>
+    </ion-toolbar>
+  </ion-header>
+  <ion-button color="primary" expand="block" [routerLink]="['/tienda']">
+    <ion-icon  name="arrow-back-outline" slot="start"></ion-icon>
+    Volver
+  </ion-button>
+  
+  <!-- Lista de Pedidos -->
+  <ion-list>
+    <ion-item *ngFor="let pedido of pedidos" (click)="animatePedido($event)">
+      <ion-avatar slot="start">
+        <img src="assets/img/order-icon.png" alt="Pedido">
+      </ion-avatar>
+      <ion-label>
+        <h2>Pedido #{{ pedido.id }}</h2>
+        <p>{{ pedido.fecha }}</p>
+        <p>Total: ${{ pedido.total }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>
