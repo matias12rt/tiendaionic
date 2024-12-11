@@ -14,13 +14,19 @@
         </ion-item>
         <ion-item button [routerLink]="['/registro-admin']">
           <ion-icon slot="start" name="create-outline"></ion-icon>
-          <ion-label>agregar un administrador</ion-label>
+          <ion-label>Agregar un Administrador</ion-label>
         </ion-item>
         <ion-item button [routerLink]="['/producto-gestion']">
           <ion-icon slot="start" name="create-outline"></ion-icon>
           <ion-label>Agregar Producto</ion-label>
         </ion-item>
+        <!-- Nuevo enlace para Categorías -->
+        <ion-item button [routerLink]="['/categoria-gestion']">
+          <ion-icon slot="start" name="list-outline"></ion-icon>
+          <ion-label>Gestionar Categorías</ion-label>
+        </ion-item>
       </ion-list>
+      
 
       <ion-footer class="ion-no-border">
         <ion-item lines="none" button (click)="confirmarCerrarSesion()"> <!-- Cambiado para mostrar el alert -->

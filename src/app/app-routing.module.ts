@@ -56,12 +56,27 @@ const routes: Routes = [
     canActivate: [autenticarGuard] // Aplica el guard aquí
   },
   {
+    path: 'agregarcate',
+    loadChildren: () => import('./admins/agregarcate/agregarcate.module').then( m => m.AgregarcatePageModule)
+  },
+  {
+    path: 'recuperador',
+    loadChildren: () => import('./home/recuperador/recuperador.module').then( m => m.RecuperadorPageModule)
+  },
+  {
+    path: 'categoria-gestion',
+    loadChildren: () => import('./admins/categoria-gestion/categoria-gestion.module').then( m => m.CategoriaGestionPageModule)
+  },
+  {
+    path: 'categoria-modificar',
+    loadChildren: () => import('./admins/categoria-modificar/categoria-modificar.module').then( m => m.CategoriaModificarPageModule)
+  },
+  {
     path: '**', // Ruta wildcard para el error 404
     component: PageNotFoundComponent
   },
- 
- 
   
+ 
 ];
 
 @NgModule({

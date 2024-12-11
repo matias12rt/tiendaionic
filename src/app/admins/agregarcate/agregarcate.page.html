@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Agregar Categoría</ion-title>
+    <ion-buttons slot="start">
+      <ion-button [routerLink]="['/categoria-gestion']">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <form (ngSubmit)="agregarCategoria()">
+    <ion-list>
+      <ion-item>
+        <ion-label position="floating">Nombre de la Categoría</ion-label>
+        <ion-input [(ngModel)]="categoria.nombre_cate" name="nombre_cate" required></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label position="floating">Descripción</ion-label>
+        <ion-textarea [(ngModel)]="categoria.descripcion" name="descripcion" required></ion-textarea>
+      </ion-item>
+    </ion-list>
+    <ion-button expand="full" type="submit" color="primary">Agregar Categoría</ion-button>
+  </form>
+</ion-content>

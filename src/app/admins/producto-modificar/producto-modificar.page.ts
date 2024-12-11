@@ -3,6 +3,7 @@ import { ApiService } from 'src/app/servicios_db_api/api.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { SqliteService } from 'src/app/servicios_db_api/sqlite.service'; 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Categoria } from '../model/categoria';
 import * as $ from 'jquery';
 
 @Component({
@@ -15,6 +16,7 @@ export class ProductoModificarPage implements OnInit {
   public selectedImage: string | undefined;
   public producto: any = {};  // Objeto para almacenar el producto
   fotoErrorMessage: string = '';
+  categorias: Categoria[] = [];
 
   constructor(
     private apiService: ApiService,
@@ -48,6 +50,18 @@ export class ProductoModificarPage implements OnInit {
   ngOnInit() {
     this.productId = Number(this.route.snapshot.paramMap.get('id'));
     this.cargarProducto();
+    this.obtenerCategorias();
+  }
+
+  obtenerCategorias() {
+    this.apiService.getCategoria().subscribe(
+      categorias => {
+        this.categorias = categorias; // Guardar las categorías recibidas.
+      },
+      error => {
+        console.error('Error al obtener las categorías:', error);
+      }
+    );
   }
 
    // Función para cargar el producto desde la API y almacenarlo en SQLite

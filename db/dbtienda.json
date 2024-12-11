@@ -1,14 +1,24 @@
 {
   "productos": [
     {
-      "id": 2,
-      "nombre": "comida para gato",
-      "codigo": "d300",
-      "precio": 13000,
-      "descripcion": "comida",
-      "cantidad": 2,
-      "categoria": "comida",
-      "foto": "https://localhost/_capacitor_file_/storage/emulated/0/Android/data/io.ionic.starter/files/Pictures/JPEG_20241128_210920_4544412393268615555.jpg"
+      "id": 3,
+      "nombre": "comida para gatos",
+      "codigo": "12teh",
+      "precio": 13596,
+      "descripcion": "ysudjd",
+      "cantidad": 4643,
+      "categoria": "Comida",
+      "foto": "https://localhost/_capacitor_file_/storage/emulated/0/Android/data/io.ionic.starter/files/Pictures/JPEG_20241211_180229_2129539766168499468.jpg"
+    },
+    {
+      "id": 4,
+      "nombre": "juguete de perro",
+      "codigo": "hdjd",
+      "precio": 4659,
+      "descripcion": "nsndjd",
+      "cantidad": 1356,
+      "categoria": "juguetes",
+      "foto": "https://localhost/_capacitor_file_/storage/emulated/0/Android/data/io.ionic.starter/files/Pictures/JPEG_20241211_180324_4485854397805742587.jpg"
     }
   ],
   "usuarios": [
@@ -29,6 +39,15 @@
       "region": "rendjd",
       "comuna": "jxjx",
       "contrasena": "Sfuentes1234"
+    },
+    {
+      "id": "0",
+      "nombre": "canon",
+      "apellido": "ddd",
+      "correo": "matias12rthp@gmail.com",
+      "region": "renca",
+      "comuna": "ccc",
+      "contrasena": "orellana12pp"
     }
   ],
   "admins": [
@@ -41,6 +60,28 @@
       "region": "ldkfj",
       "comuna": "fkfkk",
       "contrasena": "Orellana1233"
+    }
+  ],
+  "categoria": [
+    {
+      "id": "1d82",
+      "nombre_cate": "nnnn",
+      "descripcion": "dddd"
+    },
+    {
+      "id": 1,
+      "nombre_cate": "juguetes",
+      "descripcion": "juguetes para mascotas "
+    },
+    {
+      "id": 2,
+      "nombre_cate": "Comida",
+      "descripcion": "comida para mascota "
+    },
+    {
+      "id": 3,
+      "nombre_cate": "ropa de mascota",
+      "descripcion": "ropa para las mascota"
     }
   ]
 }

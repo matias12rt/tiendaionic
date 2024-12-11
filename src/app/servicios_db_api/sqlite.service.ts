@@ -68,6 +68,12 @@ export class SqliteService {
               comuna TEXT NOT NULL,
               contrasena TEXT NOT NULL
             );`, []);
+          await this.databaseObj.executeSql(`
+            CREATE TABLE IF NOT EXISTS categoria(
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre_cate TEXT NOT NULL,
+            descripcion TEXT
+            );`, []);
         this.presentToast('Tablas creadas con éxito');
       } catch (e) {
         this.presentToast('Error al crear las tablas: ' + JSON.stringify(e));
@@ -76,6 +82,53 @@ export class SqliteService {
       this.presentToast('Error: base de datos no inicializada');
     }
   }
+
+//++++++++++++++++++++++++++++++ CATEGORIA ++++++++++++++++++++++++++++++++++++++++++++
+async addCategoria(categoria:{
+  nombre_cate:string;
+  descripcion: string;
+}){
+  if (this.databaseObj) {
+    try{
+      const result = await this.databaseObj.executeSql(
+        `INSERT INTO categoria (nombre_cate, descripcion) VALUES(?,?) `,
+        [categoria.nombre_cate, categoria.descripcion]
+      );
+      return result.insertId;
+    }catch(e){
+      this.presentToast('Error al insertar categoria:'+ JSON.stringify(e));
+    }
+  }else{
+    this.presentToast('Error: base de datos no inicializada');
+  }
+
+}
+async deleteCategoria(id: number): Promise<void> {
+  if (this.databaseObj) {
+    try {
+      await this.databaseObj.executeSql(`DELETE FROM categoria WHERE id = ?`, [id]);
+      this.presentToast('categoria eliminado con éxito');
+    } catch (e) {
+      this.presentToast('Error al eliminar la categoria: ' + JSON.stringify(e));
+    }
+  } else {
+    this.presentToast('Error: base de datos no inicializada');
+  }
+}
+
+async deleteAllCategorias(): Promise<void> {
+  if (this.databaseObj) {
+    try {
+      await this.databaseObj.executeSql(`DELETE FROM categoria`);
+      this.presentToast('Tabla de categorías vaciada.');
+    } catch (e) {
+      this.presentToast('Error al vaciar la tabla de categorías: ' + JSON.stringify(e));
+    }
+  } else {
+    this.presentToast('Error: base de datos no inicializada');
+  }
+}
+
 //+++++++++++++++++++++++++++++++++++ CLIENTE +++++++++++++++++++++++++++++++++++++++++++++++++++++
 
 //-------------------- METODO PARA AGREGAR AL CLIENTE ---------------------

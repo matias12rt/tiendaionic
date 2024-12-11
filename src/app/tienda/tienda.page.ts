@@ -5,7 +5,7 @@ import { ApiService } from '../servicios_db_api/api.service';
 import { AlertController } from '@ionic/angular';
 import { AuthenticationService } from '../gurads/authentication.service'; 
 import { CartService } from '../servicio_carrito/cartservicio.service';
-
+import { Categoria } from '../admins/model/categoria';
 @Component({
   selector: 'app-tienda',
   templateUrl: './tienda.page.html',
@@ -19,6 +19,7 @@ export class TiendaPage implements OnInit {
   filteredProducts: any[] = []; // Lista de productos filtrados para la búsqueda y filtros
   searchQuery: string = ''; // Almacena el texto de búsqueda
   selectedCategory: string = ''; // Almacena la categoría seleccionada
+  categorias: Categoria[] = [];
 
 
   constructor(
@@ -36,9 +37,19 @@ export class TiendaPage implements OnInit {
 
   ngOnInit() {
     this.loadProducts();  // Llamar al método que obtiene los productos
+    this.obtenerCategorias();
   }
 
-
+  obtenerCategorias() {
+    this.apiService.getCategoria().subscribe(
+      categorias => {
+        this.categorias = categorias; // Guardar las categorías recibidas.
+      },
+      error => {
+        console.error('Error al obtener las categorías:', error);
+      }
+    );
+  }
     // Método para buscar productos por nombre o código
 searchProducts() {
   const query = this.searchQuery.toLowerCase().trim();

@@ -51,12 +51,9 @@
       placeholder="Selecciona una categoría" 
       [(ngModel)]="selectedCategory" 
       (ionChange)="applyFilters()">
-      <ion-select-option value="">Todas</ion-select-option>
-      <ion-select-option value="ropa">Ropa</ion-select-option>
-      <ion-select-option value="juguetes">Juguetes</ion-select-option>
-      <ion-select-option value="comida">Comida</ion-select-option>
-      <ion-select-option value="Limpieza">Limpieza</ion-select-option>
-      <ion-select-option value="Acesorios">Acesorios</ion-select-option>
+      <ion-select-option *ngFor="let categoria of categorias" [value]="categoria.nombre_cate">
+        {{ categoria.nombre_cate }}
+      </ion-select-option>
     </ion-select>
   </ion-item>
 

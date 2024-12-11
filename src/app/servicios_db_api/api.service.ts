@@ -1,14 +1,15 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from '../clases/Clusuarios';
-import { catchError, tap, map } from 'rxjs/operators';
-import { Observable, of} from 'rxjs';
+import { catchError, tap, map, switchMap } from 'rxjs/operators';
+import { Observable, of, throwError} from 'rxjs';
 import { HttpClient, HttpHeaders} from '@angular/common/http';
 import { Clproducto } from '../admins/model/Clproducto';
 import { Admin } from '../clases/Cladmin';
+import { Categoria } from '../clases/Clcategoria';
 
 
 // ----- VARIABLES -------------------
-const apiUrl = 'http://192.168.35.234:3000';
+const apiUrl = 'http://192.168.94.234:3000';
 const httpOptions = {headers: new HttpHeaders({ 'Content-Type': 'application/json' }) }; 
 
 @Injectable({
@@ -91,11 +92,31 @@ export class ApiService {
     }
 
 //--------------------------- METODO PARA CAMBIAR LA CONTRASEÑA --------------------------------
-    cambiarContrasena(correo: string, nuevaContrasena: string): Observable<any> {
-      return this.http.put<any>(`${apiUrl}/usuarios?=${correo}`, { contrasena: nuevaContrasena }, httpOptions).pipe(
-        catchError(this.handleError<any>('cambiarContrasena'))
-      );
-    }
+cambiarContrasena(correo: string, nuevaContrasena: string): Observable<any> {
+  // Primero, buscamos al usuario por su correo
+  return this.http.get<any[]>(`${apiUrl}/usuarios?correo=${correo}`).pipe(
+    // Después de encontrar al usuario, actualizamos la contraseña
+    switchMap((usuarios) => {
+      if (usuarios.length > 0) {
+        // Si encontramos el usuario, tomamos su id
+        const usuario = usuarios[0]; // Como sabemos que es único, tomamos el primer resultado
+        usuario.contrasena = nuevaContrasena;
+
+        // Luego, actualizamos el recurso usando el id
+        return this.http.put<any>(
+          `${apiUrl}/usuarios/${usuario.id}`, 
+          usuario, 
+          httpOptions
+        );
+      } else {
+        // Si no se encuentra el usuario, lanzamos un error
+        return throwError('Usuario no encontrado');
+      }
+    }),
+    catchError(this.handleError<any>('cambiarContrasena'))
+  );
+}
+
 
 //---------------------------- METODO PARA VERIFICAR EL CORREO DE UN CLIENTE USUARIO-------------------
 
@@ -157,5 +178,35 @@ export class ApiService {
       );
     }
     
-    
+    //++++++++++++++++++++++++++++++ CATEGORIA ++++++++++++++++++++++++++++++++++++++++++++
+    addCategoria(categori: Categoria): Observable<Categoria> {
+      return this.http.post<Categoria>(apiUrl + "/categoria", categori, httpOptions).pipe(
+        tap((newCategori: Categoria) => console.log(`categoria agregada con id=${newCategori.id}`)),
+        catchError(this.handleError<Categoria>('addCategoria'))
+      );
+    }
+
+    getCategoria(): Observable<Categoria[]>{
+      return this.http.get<Categoria[]>(apiUrl+ "/categoria")
+      .pipe(
+        tap(heroes => console.log('categoria')),
+        catchError(this.handleError('get categoria', []))
+      );
+    }
+
+    deleteCategoria(id: number): Observable<void> {
+      const url = `${apiUrl}/categoria/${id}`; // Usar parámetro de consulta en lugar de ruta
+      return this.http.delete<void>(url, httpOptions).pipe(
+        tap(() => console.log(`categoria eliminada con id=${id}`)),
+        catchError(this.handleError<void>('deleteCategoria'))
+      );
+    }
+
+    updateCategoria(id: number, categori: Categoria): Observable<Categoria> {
+      return this.http.put<Categoria>(`${apiUrl}/categoria/${id}`, categori, httpOptions)
+          .pipe(
+              tap(_ => console.log(`categoria actualizado id=${id}`)),
+              catchError(this.handleError<Categoria>('updateCategoria'))
+          );
+        }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ApiService } from '../../servicios_db_api/api.service';
 import { SqliteService } from '../../servicios_db_api/sqlite.service'; 
 import { Camera, CameraResultType, CameraSource } from '@capacitor/camera';
+import { Categoria } from '../model/categoria';
 import * as $ from 'jquery';
 
 @Component({
@@ -13,7 +14,7 @@ export class ProductoGestionPage {
   public mensaje: string = '';
   public selectedImage: string | undefined;
   fotoErrorMessage: string = '';
-
+  categorias: Categoria[] = [];
 
   constructor(
     private apiService: ApiService, 
@@ -45,6 +46,7 @@ async selectImageFromGallery() {
 }
 
   ngOnInit() {
+    this.obtenerCategorias();
     // Inicializar el formulario y manejar el envío
     $(document).ready(() => {
       $('#registrationForm').on('submit', async (event: any) => {
@@ -85,6 +87,16 @@ async selectImageFromGallery() {
 
     // Al iniciar, intentar sincronizar datos de SQLite con la API
     this.sincronizarClientesPendientes();
+  }
+  obtenerCategorias() {
+    this.apiService.getCategoria().subscribe(
+      categorias => {
+        this.categorias = categorias; // Guardar las categorías recibidas.
+      },
+      error => {
+        console.error('Error al obtener las categorías:', error);
+      }
+    );
   }
 
   limpiarFormulario() {

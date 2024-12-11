@@ -1,0 +1,39 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>Categorías</ion-title>
+    <ion-buttons slot="start">
+      <!-- Botón para volver a administración -->
+      <ion-button [routerLink]="['/administracion']">
+        <ion-icon slot="icon-only" name="arrow-back-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-buttons slot="end">
+      <ion-button (click)="agregarCategoria()">
+        <ion-icon slot="icon-only" name="add-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+  <ion-list>
+    <!-- Recorrer cada categoría -->
+    <ion-item *ngFor="let categoria of categorias">
+      <ion-label>
+        <h2>ID: {{ categoria.id }}</h2>
+        <h3>Nombre: {{ categoria.nombre_cate }}</h3>
+        <p>Descripción: {{ categoria.descripcion }}</p>
+      </ion-label>
+      <ion-buttons slot="end">
+        <!-- Botón para modificar -->
+        <ion-button color="primary" (click)="modificarCategoria(categoria)">
+          <ion-icon slot="icon-only" name="create-outline"></ion-icon>
+        </ion-button>
+        <!-- Botón para eliminar -->
+        <ion-button color="danger" (click)="eliminarCategoria(categoria.id)">
+          <ion-icon slot="icon-only" name="trash-outline"></ion-icon>
+        </ion-button>
+      </ion-buttons>
+    </ion-item>
+  </ion-list>
+</ion-content>

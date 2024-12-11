@@ -29,67 +29,8 @@
           </form>
 
           <!-- Botón para abrir el modal de recuperación de contraseña -->
-          <ion-button fill="clear" size="small" expand="block" (click)="openRecoverModal()">Recuperar Contraseña</ion-button>
+          <ion-button fill="clear" size="small" expand="block" (click)="gorecuperador()">Recuperar Contraseña</ion-button>
 
-          <!-- Modal de recuperación de contraseña -->
-          <ion-modal [isOpen]="isRecoverModalOpen" (willDismiss)="onWillDismiss($event)">
-            <ng-template>
-              <ion-header>
-                <ion-toolbar>
-                  <ion-buttons slot="start">
-                    <ion-button (click)="closeRecoverModal()">Cancelar</ion-button>
-                  </ion-buttons>
-                  <ion-title>Recuperar Contraseña</ion-title>
-                  <ion-buttons slot="end">
-                    <ion-button (click)="confirm()" [disabled]="!isValidEmail(identifier)">Confirmar</ion-button>
-                  </ion-buttons>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content class="ion-padding">
-                <ion-item>
-                  <ion-input
-                    label="Introduce tu correo o RUT"
-                    labelPlacement="stacked"
-                    type="text"
-                    placeholder="Tu correo electrónico o RUT"
-                    [(ngModel)]="identifier"
-                    name="recoverIdentifier"
-                  ></ion-input>
-                </ion-item>
-                <div *ngIf="recuperarContrasenaError" class="error-message">{{ recuperarContrasenaError }}</div>
-                <div *ngIf="recuperarContrasenaSuccess" class="success-message">{{ recuperarContrasenaSuccess }}</div>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
-
-          <!-- Modal para cambiar contraseña -->
-          <ion-modal [isOpen]="isChangePasswordModalOpen" (willDismiss)="onWillDismiss($event)">
-            <ng-template>
-              <ion-header>
-                <ion-toolbar>
-                  <ion-buttons slot="start">
-                    <ion-button (click)="closeChangePasswordModal()">Cancelar</ion-button>
-                  </ion-buttons>
-                  <ion-title>Cambiar Contraseña</ion-title>
-                  <ion-buttons slot="end">
-                    <ion-button (click)="cambiarContrasena()" [disabled]="!nuevaContrasena || !confirmarContrasena">Guardar</ion-button>
-                  </ion-buttons>
-                </ion-toolbar>
-              </ion-header>
-              <ion-content class="ion-padding">
-                <ion-item>
-                  <ion-label position="floating">Nueva Contraseña</ion-label>
-                  <ion-input type="password" [(ngModel)]="nuevaContrasena" name="nuevaContrasena"></ion-input>
-                </ion-item>
-                <ion-item>
-                  <ion-label position="floating">Confirmar Contraseña</ion-label>
-                  <ion-input type="password" [(ngModel)]="confirmarContrasena" name="confirmarContrasena"></ion-input>
-                </ion-item>
-                <div *ngIf="recuperarContrasenaError" class="error-message">{{ recuperarContrasenaError }}</div>
-                <div *ngIf="recuperarContrasenaSuccess" class="success-message">{{ recuperarContrasenaSuccess }}</div>
-              </ion-content>
-            </ng-template>
-          </ion-modal>
         </ion-card-content>
       </ion-card-header>
 
